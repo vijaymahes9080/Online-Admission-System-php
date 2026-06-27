@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Student Portal - Home</title>
+        <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+        <link rel="stylesheet" href="bootstrap/bootstrap-theme.min.css">
+        <script src="bootstrap/jquery.min.js"></script>
+        <script src="bootstrap/bootstrap.min.js"></script>
+        <link type="text/css" rel="stylesheet" href="css/admform.css"></link>
+        <script src="mock-db.js"></script>
+    </head>
+    <body style="background-image:url(./images/inbg.jpg) ">
+        <div class="container-fluid">    
+            <div class="row">
+                <div class="col-sm-12">
+                    <img src="images/cutm.jpg" width="100%" style="box-shadow: 0px 5px 5px #999999;"></img>
+                </div>
+            </div>    
+        </div>
+      
+        <div class="container-fluid" id="dmid">    
+            <div class="row">
+                <div class="col-sm-12">
+                    <center><font style="color:white; font-family: Verdana; width:100%; font-size:20px;">
+                        <b>My Profile</b> </font>
+                    </center>
+                </div>
+            </div>    
+        </div>
+      
+        <div class="container" style="background: rgba(255,255,255,0.9); padding: 20px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-top: 20px; margin-bottom: 50px;">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#myapp">My Application Form</a></li>
+                <li><a data-toggle="tab" href="#mystat">My Admission Details</a></li>
+                <li><a href="#" onclick="logout(); return false;">Logout</a></li>
+            </ul>
+             
+            <div class="tab-content">
+                <!-- Tab 1: Application Form Details -->
+                <div id="myapp" class="tab-pane fade in active">
+                    <div class="container-fluid" style="margin-top: 20px;">
+                        <center>
+                            <table class="table table-bordered" style="font-family: Verdana; background: #fff;">
+                                <tr>
+                                    <td style="width:10%; text-align: center;"><img src="./images/Logo-T.gif" width="60px"></td>
+                                    <td style="width:70%;">
+                                        <center><font style="font-family:Arial Black; font-size:18px; font-weight: bold; color: #1a4a75;">
+                                            CENTURION UNIVERSITY OF TECHNOLOGY AND MANAGEMENT, BHUBANESWAR - 752050, ODISHA</font></center>
+                                        <center><font style="font-family:Verdana; font-size:12px;">
+                                            Phone : (0674)2492496, Fax : (0674)2490480
+                                        </font></center>
+                                        <br>
+                                        <center><font style="font-family:Arial Black; font-size:16px; font-weight: bold; color: #337ab7;">
+                                            ADMISSIONS (2026-27)</font></center>
+                                    </td>
+                                    <td style="width:20%; text-align: center; vertical-align: middle;">
+                                        <img id="studentPic" src="images/loginuser.png" class="img-thumbnail" style="width:120px; height:120px; object-fit: cover;">
+                                    </td>
+                                </tr>       
+                                
+                                <tr>
+                                    <td><font style="font-family: Verdana;">Name : </font></td>
+                                    <td id="lblName" colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td><font style="font-family: Verdana;">ID : </font></td>
+                                    <td id="lblId" colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td><font style="font-family: Verdana;">Date of Birth : </font></td>
+                                    <td id="lblDob" colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td><font style="font-family: Verdana;">Email : </font></td>
+                                    <td id="lblEml" colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td><font style="font-family: Verdana;">Mobile No.</font></td>
+                                    <td id="lblMob" colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td><font style="font-family: Verdana;">Father's Name</font></td>
+                                    <td id="lblFName" colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td><font style="font-family: Verdana;">Father's Occupation</font></td>
+                                    <td id="lblFOcc"></td>
+                                    <td><font style="font-family: Verdana;">Mobile No.</font></td>
+                                    <td id="lblFPhn"></td>
+                                </tr>
+                                <tr>
+                                    <td><font style="font-family: Verdana;">Mother's Name</font></td>
+                                    <td id="lblMName" colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td><font style="font-family: Verdana;">Mother's Occupation</font></td>
+                                    <td id="lblMOcc"></td>
+                                    <td><font style="font-family: Verdana;">Mobile No.</font></td>
+                                    <td id="lblMPhn"></td>
+                                </tr>
+                                <tr>
+                                    <td><font style="font-family: Verdana;">Income of Parents</font></td>
+                                    <td id="lblInc" colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td><font style="font-family: Verdana;">Sex</font></td>
+                                    <td id="lblSex" colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td><font style="font-family: Verdana;">Correspondence Address</font></td>
+                                    <td id="lblAddr" colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td><font style="font-family: Verdana;">Nationality</font></td>
+                                    <td id="lblNat"></td>
+                                    <td><font style="font-family: Verdana;">Religion</font></td>
+                                    <td id="lblRel"></td>
+                                </tr>    
+                                <tr>
+                                    <td><font style="font-family: Verdana;">Category</font></td>
+                                    <td id="lblCat" colspan="2"></td>
+                                </tr> 
+                                <tr>
+                                    <td><font style="font-family: Verdana;">Exam Appeared</font></td>
+                                    <td id="lblExam"></td>
+                                    <td><font style="font-family: Verdana;">Rank</font></td>
+                                    <td id="lblRank"></td>
+                                </tr>  
+                                <tr>
+                                    <td><font style="font-family: Verdana;">Roll No.</font></td>
+                                    <td id="lblRoll"></td>
+                                    <td><font style="font-family: Verdana;">Choice of Branch</font></td>
+                                    <td id="lblBranch"></td>
+                                </tr>  
+                                <tr>
+                                    <td><font style="font-family: Verdana;">College Name</font></td>
+                                    <td id="lblCol" colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td><font style="font-family: Verdana;">Center for Exam</font></td>
+                                    <td id="lblCenter" colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td><font style="font-family: Verdana;">Course Type</font></td>
+                                    <td id="lblCrst" colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td><font style="font-family: Verdana;">% in PCM</font></td>
+                                    <td id="lblPcm" colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td><font style="font-family: Verdana;">Mode of Payment</font></td>
+                                    <td id="lblPay" colspan="2"></td>
+                                </tr>
+                            </table>
+                        </center>
+                    </div>
+                </div>
+                  
+                <!-- Tab 2: Admission Details / Status -->
+                <div id="mystat" class="tab-pane fade" style="margin-top: 20px;">
+                    <div class="jumbotron" style="padding: 20px; background: #fff; border: 1px solid #ddd; border-radius: 6px;">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <font style="font-family: Verdana; font-size:15px;"><strong>1) Application Status</strong>
+                                <span id="statusBadge" class="label label-infoPull" style="float: right; font-size: 14px;">Applied</span></font>
+                            </li>
+                            <li class="list-group-item">
+                                <font style="font-family: Verdana; font-size:15px;"><strong>2) Print Application Form</strong></font>
+                                <p style="float: right; font-family: Verdana; font-size:15px; margin: 0;">
+                                   <a href="admsnreport.html" class="btn btn-default btn-xs">Click Here</a>
+                                </p>
+                            </li>
+                            <li class="list-group-item">
+                                <font style="font-family: Verdana; font-size:15px;"><strong>3) Edit Application</strong></font>
+                                <p style="float: right; font-family: Verdana; font-size:15px; margin: 0;">
+                                    <a href="admsnform.html" class="btn btn-default btn-xs">Click Here</a>
+                                 </p>
+                            </li>
+                            <li class="list-group-item">
+                                <font style="font-family: Verdana; font-size:15px;"><strong>4) Print Admit Card</strong></font>
+                                <p style="float: right; font-family: Verdana; font-size:15px; margin: 0;">
+                                    <a id="lnkAdmitCard" href="#" class="btn btn-default btn-xs">Click Here</a>
+                                 </p>
+                            </li>  
+                            <li class="list-group-item">
+                                <font style="font-family: Verdana; font-size:15px;"><strong>5) View Result</strong></font>
+                                <p style="float: right; font-family: Verdana; font-size:15px; margin: 0;">
+                                    <a id="lnkResult" href="#" class="btn btn-default btn-xs">Click Here</a>
+                                 </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            window.onload = function() {
+                const currentUser = getCurrentUser();
+                if (!currentUser) {
+                    alert("Please login first.");
+                    window.location.href = "index.html";
+                    return;
+                }
+
+                const app = getApplication(currentUser.s_id);
+                if (!app) {
+                    alert("Please fill out the admission form first.");
+                    window.location.href = "admsnform.html";
+                    return;
+                }
+
+                // Bind data
+                document.getElementById('lblId').innerText = app.s_id;
+                document.getElementById('lblName').innerText = currentUser.s_name;
+                document.getElementById('lblDob').innerText = currentUser.s_dob;
+                document.getElementById('lblEml').innerText = currentUser.s_email;
+                document.getElementById('lblMob').innerText = app.s_phn1 || 'N/A';
+                document.getElementById('lblFName').innerText = app.f_name || 'N/A';
+                document.getElementById('lblFOcc').innerText = app.f_occ || 'N/A';
+                document.getElementById('lblFPhn').innerText = app.f_phn || 'N/A';
+                document.getElementById('lblMName').innerText = app.m_name || 'N/A';
+                document.getElementById('lblMOcc').innerText = app.m_occ || 'N/A';
+                document.getElementById('lblMPhn').innerText = app.m_phn || 'N/A';
+                document.getElementById('lblInc').innerText = app.s_iop || 'N/A';
+                document.getElementById('lblSex').innerText = app.s_sex || 'N/A';
+                document.getElementById('lblAddr').innerText = (app.s_cadr || '') + ', Pin: ' + (app.s_cpin || '');
+                document.getElementById('lblNat').innerText = app.s_natn || 'N/A';
+                document.getElementById('lblRel').innerText = app.s_relg || 'N/A';
+                document.getElementById('lblCat').innerText = app.s_catg || 'N/A';
+                document.getElementById('lblExam').innerText = app.s_mainsxam || 'N/A';
+                document.getElementById('lblRank').innerText = app.s_mainsrank || 'N/A';
+                document.getElementById('lblRoll').innerText = app.s_mainsroll || 'N/A';
+                document.getElementById('lblBranch').innerText = app.s_branch || 'N/A';
+                document.getElementById('lblCol').innerText = app.s_college || 'N/A';
+                document.getElementById('lblCenter').innerText = app.s_center || 'N/A';
+                document.getElementById('lblCrst').innerText = app.s_crtype || 'N/A';
+                document.getElementById('lblPcm').innerText = app.s_pcm ? app.s_pcm + '%' : 'N/A';
+                document.getElementById('lblPay').innerText = app.s_pay || 'N/A';
+
+                // Bind Status Badge
+                const statusBadge = document.getElementById('statusBadge');
+                const status = app.s_status || 'Applied';
+                statusBadge.innerText = status;
+                if (status === 'Approved') {
+                    statusBadge.className = 'label label-success';
+                } else if (status === 'Disapproved') {
+                    statusBadge.className = 'label label-danger';
+                } else {
+                    statusBadge.className = 'label label-primary';
+                }
+
+                // Bind Admit Card Action
+                const lnkAdmit = document.getElementById('lnkAdmitCard');
+                if (status === 'Approved') {
+                    lnkAdmit.onclick = function() { window.location.href = 'admitcard.html'; };
+                } else {
+                    lnkAdmit.onclick = function(e) {
+                        e.preventDefault();
+                        alert("Admit card is not available yet. Your application status must be Approved first.");
+                    };
+                }
+
+                // Bind Result Action
+                const lnkRes = document.getElementById('lnkResult');
+                if (app.s_mark !== undefined) {
+                    lnkRes.onclick = function() { window.location.href = 'viewresult.html'; };
+                } else {
+                    lnkRes.onclick = function(e) {
+                        e.preventDefault();
+                        alert("Admission exam results are not declared yet.");
+                    };
+                }
+            };
+        </script>
+    </body>
+</html>

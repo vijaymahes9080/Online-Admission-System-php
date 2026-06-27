@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Admission Form Report</title>
+        <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+        <link rel="stylesheet" href="bootstrap/bootstrap-theme.min.css">
+        <script src="bootstrap/jquery.min.js"></script>
+        <script src="bootstrap/bootstrap.min.js"></script>
+        <link type="text/css" rel="stylesheet" href="css/admform.css"></link>
+        <script src="mock-db.js"></script>
+        <script type="text/javascript">
+            function printpage() {
+                var printButton = document.getElementById("print");
+                var dashButton = document.getElementById("dashboard");
+                printButton.style.visibility = 'hidden';
+                dashButton.style.visibility = 'hidden';
+                window.print();
+                printButton.style.visibility = 'visible';
+                dashButton.style.visibility = 'visible';
+            }
+        </script>
+        <style>
+            @media print {
+                body {
+                    background: none;
+                }
+                .container-fluid, .container {
+                    box-shadow: none;
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+        </style>
+    </head>
+    <body style="background-color: #f7f7f7;">
+        <div class="container" style="background: white; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin-top: 20px; margin-bottom: 20px;">
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-bordered" style="font-family: Verdana">
+                        <tr>
+                            <td style="width:15%; text-align: center; vertical-align: middle;">
+                                <img src="./images/Logo-T.gif" width="80px">
+                            </td>
+                            <td style="width:65%;">
+                                <center>
+                                    <font style="font-family:Arial Black; font-size:18px; font-weight: bold; color: #1a4a75;">
+                                        CENTURION UNIVERSITY OF TECHNOLOGY AND MANAGEMENT
+                                    </font><br>
+                                    <font style="font-family:Verdana; font-size:12px; color: #555;">
+                                        BHUBANESWAR - 752050, ODISHA<br>
+                                        Phone : (0674)2492496, Fax : (0674)2490480
+                                    </font>
+                                </center>
+                                <center style="margin-top: 10px;">
+                                    <font style="font-family:Arial Black; font-size:16px; font-weight: bold; color: #337ab7;">
+                                        ADMISSION APPLICATION REPORT (2026-27)
+                                    </font>
+                                </center>
+                            </td>
+                            <td style="width:20%; text-align: center; vertical-align: middle;">
+                                <img id="studentPic" src="images/loginuser.png" class="img-thumbnail" style="width: 140px; height: 140px; object-fit: cover;">
+                            </td>
+                        </tr>       
+                        
+                        <tr>
+                            <td><strong>Student ID</strong></td>
+                            <td id="lblId"></td>
+                            <td><strong>Name</strong></td>
+                            <td id="lblName" colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Date of Birth</strong></td>
+                            <td id="lblDob"></td>
+                            <td><strong>Gender</strong></td>
+                            <td id="lblGender" colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Father's Name</strong></td>
+                            <td id="lblFName"></td>
+                            <td><strong>Occupation</strong></td>
+                            <td id="lblFOcc" colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mother's Name</strong></td>
+                            <td id="lblMName"></td>
+                            <td><strong>Occupation</strong></td>
+                            <td id="lblMOcc" colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Correspondence Address</strong></td>
+                            <td id="lblCAddr" colspan="4"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>State</strong></td>
+                            <td id="lblState"></td>
+                            <td><strong>Pin Code</strong></td>
+                            <td id="lblPin" colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mobile No.</strong></td>
+                            <td id="lblMob"></td>
+                            <td><strong>Annual Income</strong></td>
+                            <td id="lblInc" colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Category</strong></td>
+                            <td id="lblCat"></td>
+                            <td><strong>Religion</strong></td>
+                            <td id="lblRel" colspan="2"></td>
+                        </tr>
+                        
+                        <tr class="info" style="background: #d9edf7; font-weight: bold;">
+                            <td colspan="5">Course & Entrance Exam Details</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Entrance Exam</strong></td>
+                            <td id="lblExam"></td>
+                            <td><strong>Rank</strong></td>
+                            <td id="lblRank" colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Exam Roll No.</strong></td>
+                            <td id="lblRoll"></td>
+                            <td><strong>Exam Center</strong></td>
+                            <td id="lblCenter" colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Preferred Branch</strong></td>
+                            <td id="lblBranch"></td>
+                            <td><strong>College Code</strong></td>
+                            <td id="lblCol" colspan="2"></td>
+                        </tr>
+
+                        <tr class="info" style="background: #d9edf7; font-weight: bold;">
+                            <td colspan="5">Academic Qualification Details</td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" style="padding: 0;">
+                                <table class="table table-condensed" style="margin: 0;">
+                                    <thead>
+                                        <tr style="background: #f9f9f9;">
+                                            <th>Qualification</th>
+                                            <th>Board</th>
+                                            <th>Year of Passing</th>
+                                            <th>Total Marks</th>
+                                            <th>Marks Obtained</th>
+                                            <th>Division</th>
+                                            <th>Percentage (%)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>10th Class</strong></td>
+                                            <td id="lblBoard10"></td>
+                                            <td id="lblYop10"></td>
+                                            <td id="lblTotal10"></td>
+                                            <td id="lblObt10"></td>
+                                            <td id="lblDiv10"></td>
+                                            <td id="lblPct10"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>12th Class</strong></td>
+                                            <td id="lblBoard12"></td>
+                                            <td id="lblYop12"></td>
+                                            <td id="lblTotal12"></td>
+                                            <td id="lblObt12"></td>
+                                            <td id="lblDiv12"></td>
+                                            <td id="lblPct12"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>PCM % (12th Class)</strong></td>
+                            <td id="lblPcm"></td>
+                            <td><strong>Medium of Instr.</strong></td>
+                            <td id="lblMoi" colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mode of Payment</strong></td>
+                            <td id="lblPay"></td>
+                            <td><strong>Status</strong></td>
+                            <td id="lblStatus" colspan="2" style="font-weight: bold; color: blue;"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="row text-center" style="margin-top: 20px;">
+                <input type="button" id="print" class="btn btn-primary btn-lg" value="Print Report" onclick="printpage();" style="width: 180px; margin-right: 15px;">
+                <a href="homepageuser.html" id="dashboard" class="btn btn-success btn-lg" style="width: 180px;">Go to Dashboard</a>
+            </div>
+        </div>
+
+        <script>
+            window.onload = function() {
+                const currentUser = getCurrentUser();
+                if (!currentUser) {
+                    alert("Please login first.");
+                    window.location.href = 'index.html';
+                    return;
+                }
+
+                const app = getApplication(currentUser.s_id);
+                if (!app) {
+                    alert("No application found. Redirecting to form.");
+                    window.location.href = 'admsnform.html';
+                    return;
+                }
+
+                // Bind fields
+                document.getElementById('lblId').innerText = app.s_id;
+                document.getElementById('lblName').innerText = currentUser.s_name;
+                document.getElementById('lblDob').innerText = currentUser.s_dob;
+                document.getElementById('lblGender').innerText = app.s_sex || 'N/A';
+                document.getElementById('lblFName').innerText = app.f_name || 'N/A';
+                document.getElementById('lblFOcc').innerText = app.f_occ || 'N/A';
+                document.getElementById('lblMName').innerText = app.m_name || 'N/A';
+                document.getElementById('lblMOcc').innerText = app.m_occ || 'N/A';
+                document.getElementById('lblCAddr').innerText = app.s_cadr || 'N/A';
+                document.getElementById('lblState').innerText = app.s_cst || 'N/A';
+                document.getElementById('lblPin').innerText = app.s_cpin || 'N/A';
+                document.getElementById('lblMob').innerText = app.s_phn1 || 'N/A';
+                document.getElementById('lblInc').innerText = app.s_iop || 'N/A';
+                document.getElementById('lblCat').innerText = app.s_catg || 'N/A';
+                document.getElementById('lblRel').innerText = app.s_relg || 'N/A';
+
+                document.getElementById('lblExam').innerText = app.s_mainsxam || 'N/A';
+                document.getElementById('lblRank').innerText = app.s_mainsrank || 'N/A';
+                document.getElementById('lblRoll').innerText = app.s_mainsroll || 'N/A';
+                document.getElementById('lblCenter').innerText = app.s_center || 'N/A';
+                document.getElementById('lblBranch').innerText = app.s_branch || 'N/A';
+                document.getElementById('lblCol').innerText = app.s_college || 'N/A';
+
+                document.getElementById('lblBoard10').innerText = app.s_tenbrd || 'N/A';
+                document.getElementById('lblYop10').innerText = app.s_tenyop || 'N/A';
+                document.getElementById('lblTotal10').innerText = app.s_tentotmark || 'N/A';
+                document.getElementById('lblObt10').innerText = app.s_tenmarkob || 'N/A';
+                document.getElementById('lblDiv10').innerText = app.s_tendiv || 'N/A';
+                document.getElementById('lblPct10').innerText = (app.s_tenprcmark ? app.s_tenprcmark + '%' : 'N/A');
+
+                document.getElementById('lblBoard12').innerText = app.s_twlbrd || 'N/A';
+                document.getElementById('lblYop12').innerText = app.s_twlyop || 'N/A';
+                document.getElementById('lblTotal12').innerText = app.s_twltotmark || 'N/A';
+                document.getElementById('lblObt12').innerText = app.s_twlmarkob || 'N/A';
+                document.getElementById('lblDiv12').innerText = app.s_twldiv || 'N/A';
+                document.getElementById('lblPct12').innerText = (app.s_twlprcmark ? app.s_twlprcmark + '%' : 'N/A');
+
+                document.getElementById('lblPcm').innerText = (app.s_pcm ? app.s_pcm + '%' : 'N/A');
+                document.getElementById('lblMoi').innerText = app.s_moi || 'N/A';
+                document.getElementById('lblPay').innerText = app.s_pay || 'N/A';
+                document.getElementById('lblStatus').innerText = app.s_status || 'Applied';
+
+                if (app.s_pic) {
+                    // Just show fallback profile image since mock upload doesn't save base64
+                    document.getElementById('studentPic').src = 'images/loginuser.png';
+                }
+            };
+        </script>
+    </body>
+</html>

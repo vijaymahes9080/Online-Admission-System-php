@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Online Admission System - Upload Documents</title>
+        <link type="text/css" rel="stylesheet" href="css/admform.css"></link>
+        <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+        <link rel="stylesheet" href="bootstrap/bootstrap-theme.min.css">
+        <script src="bootstrap/jquery.min.js"></script>
+        <script src="bootstrap/bootstrap.min.js"></script>
+        <script src="mock-db.js"></script>
+        <style>
+            .upload-table {
+                background: #fff;
+                box-shadow: 0px 5px 15px rgba(0,0,0,0.1);
+                border-radius: 8px;
+                padding: 20px;
+                margin-top: 20px;
+            }
+        </style>
+    </head>
+    <body style="background-image:url('./images/inbg.jpg');">
+        <form id="docup" onsubmit="handleUploads(event)">
+            <div class="container-fluid">    
+                <div class="row">
+                    <div class="col-sm-12">
+                        <img src="images/cutm.jpg" width="100%" style="box-shadow: 1px 5px 14px #999999;"></img>
+                    </div>
+                </div>    
+            </div>
+            
+            <div class="container upload-table">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th colspan="2">
+                                <font style="font-family: Verdana; font-size:19px; font-weight: bold; color: #337ab7;">Upload Your Documents (Mock Upload)</font>
+                            </th>
+                        </tr>           
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Passport Size Image :</td>
+                            <td><input type="file" id="fpic" required></td>
+                        </tr> 
+                        <tr>
+                            <td>10th Mark Sheet :</td>
+                            <td><input type="file" id="ftndoc" required></td>
+                        </tr>
+                        <tr>
+                            <td>10th Certificate :</td>
+                            <td><input type="file" id="ftcdoc" required></td>
+                        </tr>
+                        <tr>
+                            <td>12th/Diploma Mark Sheet :</td>
+                            <td><input type="file" id="fdmdoc" required></td>
+                        </tr>
+                        <tr>
+                            <td>12th/Diploma Certificate :</td>
+                            <td><input type="file" id="fdcdoc" required></td>
+                        </tr>
+                        <tr>
+                            <td>Identity Proof :</td>
+                            <td><input type="file" id="fide" required></td>
+                        </tr> 
+                        <tr>
+                            <td>Signature :</td>
+                            <td><input type="file" id="fsig" required></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button type="submit" id="btnUpload" class="btn btn-primary">Save Upload Documents</button>
+                                <span id="uploadStatus" style="margin-left: 15px; font-weight: bold; color: green; display: none;">Documents Staged Successfully!</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="container" style="margin-top: 20px;">
+                <div class="jumbotron" style="width:100%; box-shadow: -3px 3px 10px #999999; margin-top:10px;">
+                    <h3>
+                        <b><font style="font-family: Verdana; font-size:19px;">Declaration By The Applicant</font></b>
+                    </h3>
+                    <p><font style="font-family: Verdana; font-size:medium">
+                        I hereby solemnly declare that all the particulars given in this form are true to the best of my knowledge
+                        and belief. I shall abide by the rules and regulations laid down by the College from time to time.
+                        In case the particulars furnished by me are found false, my admission stands canceled.
+                    </font></p>
+                    <input type="checkbox" id="dec" value="I accept" onclick="checkDeclaration(this)">
+                    <font style="font-family: Verdana; font-size:medium; font-weight: bold;">I accept</font>
+                </div>
+            </div>
+        </form>
+
+        <script>
+            let currentUser = null;
+            let uploaded = false;
+
+            window.onload = function() {
+                currentUser = getCurrentUser();
+                if (!currentUser) {
+                    alert("Please login first.");
+                    window.location.href = "index.html";
+                    return;
+                }
+            };
+
+            function handleUploads(event) {
+                event.preventDefault();
+                
+                // Get filenames
+                const getFilename = id => {
+                    const val = document.getElementById(id).value;
+                    return val ? val.split('\\').pop() : 'default.pdf';
+                };
+
+                const uploadData = {
+                    s_pic: getFilename('fpic'),
+                    s_tenmarkpic: getFilename('ftndoc'),
+                    s_tencerpic: getFilename('ftcdoc'),
+                    s_twdmarkpic: getFilename('fdmdoc'),
+                    s_twdcerpic: getFilename('fdcdoc'),
+                    s_idprfpic: getFilename('fide'),
+                    s_sigpic: getFilename('fsig'),
+                    s_status: 'Applied'
+                };
+
+                saveApplication(currentUser.s_id, uploadData);
+                uploaded = true;
+                document.getElementById('uploadStatus').style.display = 'inline';
+                alert("Mock documents uploaded successfully! Please check the declaration checkbox below to view your report.");
+            }
+
+            function checkDeclaration(checkbox) {
+                if (checkbox.checked) {
+                    if (!uploaded) {
+                        alert("Please save your uploaded documents first!");
+                        checkbox.checked = false;
+                        return;
+                    }
+                    window.location.href = 'admsnreport.html';
+                }
+            }
+        </script>
+    </body>
+</html>

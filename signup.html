@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Online Admission System - Sign Up</title>
+        <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+        <link rel="stylesheet" href="bootstrap/bootstrap-theme.min.css">
+        <script src="bootstrap/jquery.min.js"></script>
+        <script src="bootstrap/bootstrap.min.js"></script>
+        <link type="text/css" rel="stylesheet" href="css/sign.css"></link>
+        <script src="mock-db.js"></script>
+        <style>
+            .captcha-container {
+                display: inline-block;
+                background: #f0f0f0;
+                padding: 5px 15px;
+                font-family: 'Courier New', Courier, monospace;
+                font-weight: bold;
+                font-size: 20px;
+                letter-spacing: 3px;
+                border: 1px dashed #999;
+                margin-left: 30px;
+                margin-bottom: 10px;
+                user-select: none;
+            }
+        </style>
+    </head>
+    <body style="background-image:url('./images/inbg.jpg');">
+        <form id="signup" onsubmit="handleSignup(event)">
+            <div class="container-fluid">    
+                <div class="row">
+                    <div class="col-sm-12">
+                        <img src="images/cutm.jpg" width="100%" style="box-shadow: 1px 5px 14px #999999;"></img>
+                    </div>
+                </div>    
+            </div>
+            <div id="ddown" style="margin-top: 20px;">
+                <br><br><br>
+                <div id="dleft">
+                    <img src="images/signup1.jpg" style="height:470px;width:550px;border-top-left-radius:15px;border-bottom-left-radius:15px;"></img>
+                </div>
+                <div id="drig">
+                    <br>
+                    <font style="color:black; margin-left:30px; font-size:22px; font-family: verdana;font-weight: bold;">Sign Up Here</font>
+                    <table id="tabintro">
+                        <tr>
+                            <td>
+                                <font style="color:black; margin-left:30px; font-family: Verdana; margin-top:15px; font-size:17px;">Name *</font>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-bottom: 1em;">
+                                <input type="text" id="in_name" name="in_name" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <font style="color:black; margin-left:30px; font-family: Verdana;font-size:17px;">Date of Birth *</font>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-bottom: 1em;">
+                                <input type="date" id="in_dob" name="in_dob" style="width: 300px; margin-left: 30px; height: 30px;" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <font style="color:black; margin-left:30px; font-family: Verdana;font-size:17px;">Email ID *</font>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-bottom: 1em;">
+                                <input type="email" id="in_eml" name="in_eml" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <font style="color:black; margin-left:30px; font-family: Verdana;font-size:17px;">Mobile No. *</font>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-bottom: 1em;">
+                                <input type="text" id="in_mob" name="in_mob" pattern="[0-9]{10}" title="Ten digit mobile number" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div id="captchaBox" class="captcha-container"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-bottom: 1em;">
+                                <input type="text" id="txt_captcha" name="txt_captcha" placeholder="Enter the code above" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> 
+                                <input type="submit" id="in_sub" name="in_sub" value="SIGN UP" style="margin-top: 8px;margin-left:90px;" class="toggle btn btn-primary">
+                                <a href="index.html" style="margin-left: 20px;">Login</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </form>
+
+        <script>
+            let currentCaptcha = '';
+
+            function generateCaptcha() {
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                let captcha = '';
+                for (let i = 0; i < 5; i++) {
+                    captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                currentCaptcha = captcha;
+                document.getElementById('captchaBox').innerText = captcha;
+            }
+
+            function handleSignup(event) {
+                event.preventDefault();
+                const captchaInput = document.getElementById('txt_captcha').value.toUpperCase();
+                
+                if (captchaInput !== currentCaptcha) {
+                    alert("Incorrect Captcha Code. Please try again.");
+                    generateCaptcha();
+                    document.getElementById('txt_captcha').value = '';
+                    return;
+                }
+
+                const name = document.getElementById('in_name').value;
+                const email = document.getElementById('in_eml').value;
+                const dob = document.getElementById('in_dob').value;
+                const mob = document.getElementById('in_mob').value;
+
+                // Generate random password
+                const alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+                let password = "";
+                for(let i=0; i<8; i++) {
+                    password += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                }
+
+                const result = signupUser(name, email, dob, password, mob);
+                if (result.success) {
+                    sessionStorage.setItem('reg_user_id', result.s_id);
+                    sessionStorage.setItem('reg_password', password);
+                    sessionStorage.setItem('reg_name', name);
+                    window.location.href = 'signupconfirm.html';
+                } else {
+                    alert(result.message);
+                }
+            }
+
+            // Generate initial captcha on load
+            window.onload = generateCaptcha;
+        </script>
+    </body>
+</html>

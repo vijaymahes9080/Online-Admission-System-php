@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>University Manager Portal</title>
+        <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+        <link rel="stylesheet" href="bootstrap/bootstrap-theme.min.css">
+        <script src="bootstrap/jquery.min.js"></script>
+        <script src="bootstrap/bootstrap.min.js"></script>
+        <link type="text/css" rel="stylesheet" href="css/admform.css"></link>
+        <script src="mock-db.js"></script>
+        <style>
+            .admin-container {
+                background: rgba(255, 255, 255, 0.95);
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+                margin-top: 20px;
+                margin-bottom: 50px;
+            }
+            .nav-tabs {
+                margin-bottom: 20px;
+            }
+            .action-btn {
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                padding: 2px 5px;
+            }
+        </style>
+    </head>
+    <body style="background-image:url(./images/inbg.jpg)">
+        <div class="container-fluid">    
+            <div class="row">
+                <div class="col-sm-12">
+                    <img src="images/cutm.jpg" width="100%" style="box-shadow: 0px 5px 5px #999999;"></img>
+                </div>
+            </div>    
+        </div>
+      
+        <div class="container-fluid" id="dmid">    
+            <div class="row">
+                <div class="col-sm-12">
+                    <center>
+                        <font style="color:white; font-family: Verdana; width:100%; font-size:20px;">
+                            <b>Manager Dashboard</b> (Welcome, <span id="lblAdminName">Admin</span>)
+                        </font>
+                    </center>
+                </div>
+            </div>    
+        </div>
+
+        <div class="container admin-container">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#adstudent">Student Verification</a></li>
+                <li><a data-toggle="tab" href="#admarks">Submit Exam Scores</a></li>
+                <li><a data-toggle="tab" href="#adadmin">Manager Accounts</a></li>
+                <li><a href="#" onclick="logout(); return false;">Logout</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <!-- Tab 1: Student Verification -->
+                <div id="adstudent" class="tab-pane fade in active">
+                    <h3>Applicant Verification Queue</h3>
+                    <table class="table table-striped" id="tblData">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>NAME</th>
+                                <th>DATE OF BIRTH</th>
+                                <th>EMAIL ID</th>
+                                <th>CONTACT NO.</th>
+                                <th>STATUS</th>
+                                <th>ADMIT CARD</th>
+                                <th>APPROVE</th>
+                                <th>DISAPPROVE</th>
+                            </tr>
+                        </thead>
+                        <tbody id="applicantTableBody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Tab 2: Submit Scores -->
+                <div id="admarks" class="tab-pane fade">
+                    <div class="container-fluid">
+                        <center>
+                            <div class="jumbotron" style="width:60%; box-shadow: -3px 3px 10px #999999; margin-top:10px;">
+                                <h3>Submit CUEE Entrance Marks</h3>
+                                <br>
+                                <form id="marksForm" onsubmit="handleMarksSubmit(event)">
+                                    <div class="form-group text-left">
+                                        <label>Select Student ID</label>
+                                        <select id="marksStudentId" class="form-control" onchange="onStudentSelectForMarks(this)" required>
+                                            <option value="">Select...</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group text-left">
+                                        <label>Student Name</label>
+                                        <input type="text" id="marksStudentName" class="form-control" readonly>
+                                    </div>
+                                    <div class="form-group text-left">
+                                        <label>OMR Sheet Number</label>
+                                        <input type="text" id="marksOMR" class="form-control" required>
+                                    </div>
+                                    <div class="form-group text-left">
+                                        <label>CUEE Exam Marks</label>
+                                        <input type="number" id="marksValue" class="form-control" min="0" max="600" required>
+                                    </div>
+                                    <input type="submit" value="Submit Marks" class="btn btn-primary btn-block">
+                                </form>
+                            </div>
+                        </center>
+                    </div>
+                </div>
+
+                <!-- Tab 3: Manager Accounts -->
+                <div id="adadmin" class="tab-pane fade">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <h3>Create New Manager</h3>
+                            <form id="createAdminForm" onsubmit="handleCreateAdmin(event)">
+                                <div class="form-group">
+                                    <input type="text" id="txtAdminName" class="form-control" placeholder="Full Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" id="txtAdminEmail" class="form-control" placeholder="Email Address" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" id="txtAdminPass" class="form-control" placeholder="Password" required>
+                                </div>
+                                <input type="submit" value="Create Account" class="btn btn-primary btn-block">
+                            </form>
+                        </div>
+                        <div class="col-sm-7">
+                            <h3>Existing Managers</h3>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>NAME</th>
+                                        <th>EMAIL ID</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="managersTableBody">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            let currentAdmin = null;
+
+            window.onload = function() {
+                currentAdmin = getCurrentAdmin();
+                if (!currentAdmin) {
+                    alert("Please login as Admin first.");
+                    window.location.href = 'adminlogin.html';
+                    return;
+                }
+
+                document.getElementById('lblAdminName').innerText = currentAdmin.ad_name;
+                renderApplicants();
+                renderManagers();
+                populateMarksDropdown();
+            };
+
+            function renderApplicants() {
+                const applicants = getAllApplications();
+                const tbody = document.getElementById('applicantTableBody');
+                tbody.innerHTML = '';
+
+                if (applicants.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="9" class="text-center">No applications pending.</td></tr>';
+                    return;
+                }
+
+                applicants.forEach(app => {
+                    const tr = document.createElement('tr');
+                    
+                    // ID (link to view report/form detail)
+                    const tdId = document.createElement('td');
+                    tdId.innerHTML = `<a href="admsnreport.html?id=${app.s_id}">${app.s_id}</a>`;
+                    tr.appendChild(tdId);
+
+                    // Name, DOB, Email, Contact
+                    const tdName = document.createElement('td');
+                    tdName.innerText = app.s_name;
+                    tr.appendChild(tdName);
+
+                    const tdDob = document.createElement('td');
+                    tdDob.innerText = app.s_dob;
+                    tr.appendChild(tdDob);
+
+                    const tdEmail = document.createElement('td');
+                    tdEmail.innerText = app.s_email;
+                    tr.appendChild(tdEmail);
+
+                    const tdContact = document.createElement('td');
+                    tdContact.innerText = app.s_phn1 || 'N/A';
+                    tr.appendChild(tdContact);
+
+                    // Status
+                    const tdStatus = document.createElement('td');
+                    tdStatus.innerText = app.s_status || 'Applied';
+                    tdStatus.style.fontWeight = 'bold';
+                    if (app.s_status === 'Approved') tdStatus.style.color = 'green';
+                    else if (app.s_status === 'Disapproved') tdStatus.style.color = 'red';
+                    else tdStatus.style.color = 'blue';
+                    tr.appendChild(tdStatus);
+
+                    // Card button
+                    const tdCard = document.createElement('td');
+                    if (app.s_status === 'Approved') {
+                        tdCard.innerHTML = `<button onclick="viewStudentAdmitCard('${app.s_id}')" class="btn btn-primary btn-xs">Card</button>`;
+                    } else {
+                        tdCard.innerHTML = `<button disabled class="btn btn-default btn-xs">Card</button>`;
+                    }
+                    tr.appendChild(tdCard);
+
+                    // Approve button (Tick)
+                    const tdApprove = document.createElement('td');
+                    tdApprove.innerHTML = `<button onclick="approveStudent('${app.s_id}')" class="action-btn"><img src="./images/Tick.png" width="20px"></button>`;
+                    tr.appendChild(tdApprove);
+
+                    // Disapprove button (Cross)
+                    const tdDisapprove = document.createElement('td');
+                    tdDisapprove.innerHTML = `<button onclick="disapproveStudent('${app.s_id}')" class="action-btn"><img src="./images/cross.png" width="20px"></button>`;
+                    tr.appendChild(tdDisapprove);
+
+                    tbody.appendChild(tr);
+                });
+            }
+
+            function approveStudent(userId) {
+                updateApplicationStatus(userId, 'Approved');
+                renderApplicants();
+            }
+
+            function disapproveStudent(userId) {
+                updateApplicationStatus(userId, 'Disapproved');
+                renderApplicants();
+            }
+
+            function viewStudentAdmitCard(userId) {
+                // Simulating student session
+                const users = JSON.parse(localStorage.getItem('oas_users')) || [];
+                const userObj = users.find(u => u.s_id === userId);
+                if (userObj) {
+                    sessionStorage.setItem('current_user', JSON.stringify(userObj));
+                    window.location.href = 'admitcard.html';
+                }
+            }
+
+            function populateMarksDropdown() {
+                const applicants = getAllApplications();
+                const dropdown = document.getElementById('marksStudentId');
+                dropdown.innerHTML = '<option value="">Select...</option>';
+                
+                applicants.forEach(app => {
+                    if (app.s_status === 'Approved') {
+                        const opt = document.createElement('option');
+                        opt.value = app.s_id;
+                        opt.innerText = `${app.s_id} - ${app.s_name}`;
+                        dropdown.appendChild(opt);
+                    }
+                });
+            }
+
+            function onStudentSelectForMarks(select) {
+                const userId = select.value;
+                if (!userId) {
+                    document.getElementById('marksStudentName').value = '';
+                    document.getElementById('marksOMR').value = '';
+                    document.getElementById('marksValue').value = '';
+                    return;
+                }
+                const app = getApplication(userId);
+                document.getElementById('marksStudentName').value = app.s_name || '';
+                document.getElementById('marksOMR').value = app.s_omr || '';
+                document.getElementById('marksValue').value = app.s_mark || '';
+            }
+
+            function handleMarksSubmit(event) {
+                event.preventDefault();
+                const id = document.getElementById('marksStudentId').value;
+                const omr = document.getElementById('marksOMR').value;
+                const mark = document.getElementById('marksValue').value;
+
+                if (submitMarks(id, omr, mark)) {
+                    alert("Entrance scores saved successfully!");
+                    document.getElementById('marksForm').reset();
+                } else {
+                    alert("Error saving scores.");
+                }
+            }
+
+            function renderManagers() {
+                const admins = JSON.parse(localStorage.getItem('oas_admins')) || [];
+                const tbody = document.getElementById('managersTableBody');
+                tbody.innerHTML = '';
+
+                admins.forEach(admin => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${admin.ad_id}</td>
+                        <td>${admin.ad_name}</td>
+                        <td>${admin.ad_eml || 'N/A'}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            function handleCreateAdmin(event) {
+                event.preventDefault();
+                const name = document.getElementById('txtAdminName').value;
+                const email = document.getElementById('txtAdminEmail').value;
+                const pass = document.getElementById('txtAdminPass').value;
+
+                const admins = JSON.parse(localStorage.getItem('oas_admins')) || [];
+                const newId = 'AD' + String(admins.length + 1).padStart(5, '0');
+                
+                const newAdmin = {
+                    ad_id: newId,
+                    ad_name: name,
+                    ad_pswd: pass,
+                    ad_eml: email
+                };
+
+                admins.push(newAdmin);
+                localStorage.setItem('oas_admins', JSON.stringify(admins));
+                alert(`Manager account created successfully! Admin ID: ${newId}`);
+                document.getElementById('createAdminForm').reset();
+                renderManagers();
+            }
+        </script>
+    </body>
+</html>

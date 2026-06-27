@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link type="text/css" rel="stylesheet" href="css/login.css"></link>
+        <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+        <link rel="stylesheet" href="bootstrap/bootstrap-theme.min.css">
+        <script src="bootstrap/jquery.min.js"></script>
+        <script src="bootstrap/bootstrap.min.js"></script>
+        <script src="mock-db.js"></script>
+        <title>Online Admission System - Login</title>
+    </head>
+    <body style="background-image:url('./images/inbg.jpg');">
+        <form id="index" onsubmit="handleLogin(event)">
+            <div class="container-fluid">    
+                <div class="row">
+                    <div class="col-sm-12">
+                        <img src="images/cutm.jpg" width="100%" style="box-shadow: 1px 5px 14px #999999;"></img>
+                    </div>
+                </div>    
+             
+                <div id="divtop">
+                    <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+                    <div id="dmain"> 
+                        <center><img src="./images/loginuser.png" width="120px" height="100px"></center>
+                        <br>
+                        <input type="text" id="u_id" name="u_id" class="form-control" style="width:300px; margin-left: 66px;" placeholder="Enter Your User ID" required><br>
+                        <input type="password" id="u_ps" name="u_ps" class="form-control" style="width:300px; margin-left: 66px;" placeholder="Enter Your Password" required><br>
+                        <input type="submit" id="u_sub" name="u_sub" value="Login" class="toggle btn btn-primary" style="width:100px; margin-left: 160px;"><br>
+                        <a href="signup.html" style="margin-left: 140px;">Sign Up</a> | 
+                        <a href="adminlogin.html">Admin Login</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <script>
+            function handleLogin(event) {
+                event.preventDefault();
+                const id = document.getElementById('u_id').value;
+                const ps = document.getElementById('u_ps').value;
+                
+                const user = loginUser(id, ps);
+                if (user) {
+                    const app = getApplication(id);
+                    if (app) {
+                        window.location.href = 'homepageuser.html';
+                    } else {
+                        window.location.href = 'admsnform.html';
+                    }
+                } else {
+                    alert("Invalid username or password");
+                }
+            }
+        </script>
+    </body>
+</html>

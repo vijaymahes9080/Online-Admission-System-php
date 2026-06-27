@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link type="text/css" rel="stylesheet" href="css/login.css"></link>
+        <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+        <link rel="stylesheet" href="bootstrap/bootstrap-theme.min.css">
+        <script src="bootstrap/jquery.min.js"></script>
+        <script src="bootstrap/bootstrap.min.js"></script>
+        <script src="mock-db.js"></script>
+        <title>Online Admission System - Admin Login</title>
+        <style>
+            #adivtop {
+                background: rgba(255, 255, 255, 0.95);
+                box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+                border-radius: 8px;
+                padding: 30px;
+                width: 320px;
+                margin: 0 auto;
+                margin-top: 100px;
+            }
+        </style>
+    </head>
+    <body style="background-image:url('./images/inbg.jpg');">
+        <form id="adminlogin" onsubmit="handleAdminLogin(event)">
+            <div class="container-fluid">    
+                <div class="row">
+                    <div class="col-sm-12">
+                        <img src="images/cutm.jpg" width="100%" style="box-shadow: 1px 5px 14px #999999;"></img>
+                    </div>
+                </div>    
+            </div>  
+        
+            <div id="adivtop">
+                <center>
+                    <img src="./images/adminicon.png" width="80px" style="margin-bottom: 15px;"><br>
+                    <h3 style="font-family: Verdana; font-weight: bold; margin-bottom: 20px; color: #333;">Admin Login</h3>
+                    <input type="text" id="a_id" name="a_id" class="form-control" placeholder="Admin ID" required><br>
+                    <input type="password" id="a_ps" name="a_ps" class="form-control" placeholder="Password" required><br>
+                    <input type="submit" id="a_sub" name="a_sub" value="Login" class="btn btn-primary btn-block" style="font-weight: bold;"><br>
+                    <a href="index.html">Back to Student Login</a>
+                </center>
+            </div>
+        </form>
+
+        <script>
+            function handleAdminLogin(event) {
+                event.preventDefault();
+                const id = document.getElementById('a_id').value;
+                const ps = document.getElementById('a_ps').value;
+
+                const admin = loginAdmin(id, ps);
+                if (admin) {
+                    window.location.href = 'admin.html';
+                } else {
+                    alert("Invalid Login ! Please try again.");
+                }
+            }
+        </script>
+    </body>
+</html>

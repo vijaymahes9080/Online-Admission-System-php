@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Online Admission System - Application Form</title>
+        <link type="text/css" rel="stylesheet" href="css/admform.css"></link>
+        <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+        <link rel="stylesheet" href="bootstrap/bootstrap-theme.min.css">
+        <script src="bootstrap/jquery.min.js"></script>
+        <script src="bootstrap/bootstrap.min.js"></script>
+        <script src="mock-db.js"></script>
+        <style>
+            .form-section {
+                background: rgba(255, 255, 255, 0.95);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 20px;
+                box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+            }
+            .section-title {
+                border-bottom: 2px solid #337ab7;
+                padding-bottom: 5px;
+                margin-bottom: 15px;
+                color: #337ab7;
+                font-family: Verdana;
+                font-weight: bold;
+            }
+            label {
+                font-family: Verdana;
+                font-size: 14px;
+                color: #333;
+                margin-top: 10px;
+            }
+            .form-control {
+                margin-bottom: 10px;
+            }
+        </style>
+    </head>
+    <body style="background-image:url('./images/inbg.jpg');">
+        <div class="container-fluid">    
+            <div class="row">
+                <div class="col-sm-12">
+                    <img src="images/cutm.jpg" width="100%" style="box-shadow: 1px 5px 14px #999999;"></img>
+                </div>
+            </div>    
+        </div>
+        
+        <div class="container" style="margin-top: 20px; margin-bottom: 50px;">
+            <div class="row">
+                <div class="col-sm-12 text-center" style="margin-bottom: 20px;">
+                    <h2 style="color: white; font-family: Verdana; font-weight: bold; text-shadow: 2px 2px 4px #000;">ADMISSION FORM</h2>
+                    <h4 style="color: white; font-family: Verdana;">Welcome, <span id="lblStudentName" style="text-decoration: underline;">Student</span> (ID: <span id="lblStudentID">CUTMXXXX</span>)</h4>
+                </div>
+            </div>
+
+            <form id="adform" onsubmit="handleFormSubmit(event)">
+                <!-- Section 1: Personal Details -->
+                <div class="form-section">
+                    <h3 class="section-title">1. Personal Details</h3>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label>Father's Name *</label>
+                            <input type="text" id="ufname" class="form-control" required>
+                        </div>
+                        <div class="col-sm-4">
+                            <label>Father's Occupation *</label>
+                            <input type="text" id="ufocc" class="form-control" required>
+                        </div>
+                        <div class="col-sm-4">
+                            <label>Father's Phone *</label>
+                            <input type="text" id="ufphn" class="form-control" pattern="[0-9]{10}" placeholder="10-digit number" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label>Mother's Name *</label>
+                            <input type="text" id="umname" class="form-control" required>
+                        </div>
+                        <div class="col-sm-4">
+                            <label>Mother's Occupation *</label>
+                            <input type="text" id="umocc" class="form-control" required>
+                        </div>
+                        <div class="col-sm-4">
+                            <label>Mother's Phone *</label>
+                            <input type="text" id="umphn" class="form-control" pattern="[0-9]{10}" placeholder="10-digit number" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label>Annual Income *</label>
+                            <input type="number" id="inc" class="form-control" required>
+                        </div>
+                        <div class="col-sm-4">
+                            <label>Gender *</label>
+                            <select id="gen" class="form-control" required>
+                                <option value="">Select...</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <label>Nationality *</label>
+                            <input type="text" id="natn" value="Indian" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label>Religion *</label>
+                            <input type="text" id="relg" class="form-control" required>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Category *</label>
+                            <select id="cat" class="form-control" required>
+                                <option value="">Select...</option>
+                                <option value="GEN">General</option>
+                                <option value="OBC">OBC</option>
+                                <option value="SC">SC</option>
+                                <option value="ST">ST</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Area Type *</label>
+                            <select id="rur" class="form-control" required>
+                                <option value="City">Urban (City)</option>
+                                <option value="Rural">Rural</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Personal Mobile *</label>
+                            <input type="text" id="uphn1" class="form-control" pattern="[0-9]{10}" placeholder="10-digit number" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Correspondence Address *</label>
+                            <textarea id="cadr" class="form-control" rows="2" required></textarea>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>State *</label>
+                            <input type="text" id="cast" class="form-control" required>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Pin Code *</label>
+                            <input type="text" id="capin" class="form-control" pattern="[0-9]{6}" placeholder="6-digit PIN" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Course & Entrance Details -->
+                <div class="form-section">
+                    <h3 class="section-title">2. Entrance Exam & Course Selection</h3>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label>Entrance Exam *</label>
+                            <select id="oaco" class="form-control" required>
+                                <option value="JEE MAIN">JEE MAIN</option>
+                                <option value="OJEE">OJEE</option>
+                                <option value="CUEE">CUEE</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Entrance Rank *</label>
+                            <input type="text" id="oarank" class="form-control" required>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Entrance Roll No. *</label>
+                            <input type="text" id="oaroll" class="form-control" required>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Exam Center State *</label>
+                            <input type="text" id="oabrn" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label>Preferred Branch *</label>
+                            <select id="brnc" class="form-control" required>
+                                <option value="COMPUTER SCIENCE AND ENG">Computer Science & Eng</option>
+                                <option value="ELECTRONICS AND COMM ENG">Electronics & Comm Eng</option>
+                                <option value="MECHANICAL ENG">Mechanical Eng</option>
+                                <option value="CIVIL ENG">Civil Eng</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>College Code *</label>
+                            <select id="col" class="form-control" required>
+                                <option value="CIT">CIT (Bhubaneswar)</option>
+                                <option value="MITS">MITS (Rayagada)</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Exam Center Location *</label>
+                            <input type="text" id="cen" class="form-control" required>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Course Type *</label>
+                            <select id="crsty" class="form-control" required>
+                                <option value="Regular">Regular</option>
+                                <option value="Distance">Distance</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Academic Qualifications -->
+                <div class="form-section">
+                    <h3 class="section-title">3. Academic Qualifications</h3>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Qualification</th>
+                                <th>Board/University</th>
+                                <th>Year of Passing</th>
+                                <th>Total Marks</th>
+                                <th>Marks Obtained</th>
+                                <th>Division</th>
+                                <th>Percentage (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>10th Class *</strong></td>
+                                <td><input type="text" id="nob1" class="form-control" required></td>
+                                <td><input type="number" id="yop1" class="form-control" required></td>
+                                <td><input type="number" id="tm1" class="form-control" oninput="calcPct1()" required></td>
+                                <td><input type="number" id="mo1" class="form-control" oninput="calcPct1()" required></td>
+                                <td><input type="text" id="divs1" class="form-control" required></td>
+                                <td><input type="text" id="pom1" class="form-control" readonly></td>
+                            </tr>
+                            <tr>
+                                <td><strong>12th Class / Diploma *</strong></td>
+                                <td><input type="text" id="nob2" class="form-control" required></td>
+                                <td><input type="number" id="yop2" class="form-control" required></td>
+                                <td><input type="number" id="tm2" class="form-control" oninput="calcPct2()" required></td>
+                                <td><input type="number" id="mo2" class="form-control" oninput="calcPct2()" required></td>
+                                <td><input type="text" id="divs2" class="form-control" required></td>
+                                <td><input type="text" id="pom2" class="form-control" readonly></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Aggregate PCM % (12th Class) *</label>
+                            <input type="number" id="pcm" class="form-control" required>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Medium of Instruction *</label>
+                            <select id="moi" class="form-control" required>
+                                <option value="English">English</option>
+                                <option value="Odia">Odia</option>
+                                <option value="Hindi">Hindi</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Mode of Payment *</label>
+                            <select id="pay" class="form-control" required>
+                                <option value="Self">Self Payment</option>
+                                <option value="Loan">Educational Loan</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <input type="submit" class="btn btn-primary btn-lg" style="width: 200px;" value="Next (Upload Docs)">
+                </div>
+            </form>
+        </div>
+
+        <script>
+            let currentUser = null;
+
+            window.onload = function() {
+                currentUser = getCurrentUser();
+                if (!currentUser) {
+                    alert("Please login first.");
+                    window.location.href = "index.html";
+                    return;
+                }
+                
+                document.getElementById('lblStudentName').innerText = currentUser.s_name;
+                document.getElementById('lblStudentID').innerText = currentUser.s_id;
+
+                // Load existing application draft if any
+                const existingApp = getApplication(currentUser.s_id);
+                if (existingApp) {
+                    document.getElementById('ufname').value = existingApp.f_name || '';
+                    document.getElementById('ufocc').value = existingApp.f_occ || '';
+                    document.getElementById('ufphn').value = existingApp.f_phn || '';
+                    document.getElementById('umname').value = existingApp.m_name || '';
+                    document.getElementById('umocc').value = existingApp.m_occ || '';
+                    document.getElementById('umphn').value = existingApp.m_phn || '';
+                    document.getElementById('inc').value = existingApp.s_iop || '';
+                    document.getElementById('gen').value = existingApp.s_sex || '';
+                    document.getElementById('natn').value = existingApp.s_natn || 'Indian';
+                    document.getElementById('relg').value = existingApp.s_relg || '';
+                    document.getElementById('cat').value = existingApp.s_catg || '';
+                    document.getElementById('rur').value = existingApp.s_ruc || 'City';
+                    document.getElementById('uphn1').value = existingApp.s_phn1 || '';
+                    document.getElementById('cadr').value = existingApp.s_cadr || '';
+                    document.getElementById('cast').value = existingApp.s_cst || '';
+                    document.getElementById('capin').value = existingApp.s_cpin || '';
+
+                    document.getElementById('oaco').value = existingApp.s_mainsxam || 'JEE MAIN';
+                    document.getElementById('oarank').value = existingApp.s_mainsrank || '';
+                    document.getElementById('oaroll').value = existingApp.s_mainsroll || '';
+                    document.getElementById('oabrn').value = existingApp.s_mainsbrnch || '';
+                    document.getElementById('brnc').value = existingApp.s_branch || 'COMPUTER SCIENCE AND ENG';
+                    document.getElementById('col').value = existingApp.s_college || 'CIT';
+                    document.getElementById('cen').value = existingApp.s_center || '';
+                    document.getElementById('crsty').value = existingApp.s_crtype || 'Regular';
+
+                    document.getElementById('nob1').value = existingApp.s_tenbrd || '';
+                    document.getElementById('yop1').value = existingApp.s_tenyop || '';
+                    document.getElementById('tm1').value = existingApp.s_tentotmark || '';
+                    document.getElementById('mo1').value = existingApp.s_tenmarkob || '';
+                    document.getElementById('divs1').value = existingApp.s_tendiv || '';
+                    document.getElementById('pom1').value = existingApp.s_tenprcmark || '';
+
+                    document.getElementById('nob2').value = existingApp.s_twlbrd || '';
+                    document.getElementById('yop2').value = existingApp.s_twlyop || '';
+                    document.getElementById('tm2').value = existingApp.s_twltotmark || '';
+                    document.getElementById('mo2').value = existingApp.s_twlmarkob || '';
+                    document.getElementById('divs2').value = existingApp.s_twldiv || '';
+                    document.getElementById('pom2').value = existingApp.s_twlprcmark || '';
+
+                    document.getElementById('pcm').value = existingApp.s_pcm || '';
+                    document.getElementById('moi').value = existingApp.s_moi || 'English';
+                    document.getElementById('pay').value = existingApp.s_pay || 'Self';
+                }
+            };
+
+            function calcPct1() {
+                const total = parseFloat(document.getElementById('tm1').value);
+                const ob = parseFloat(document.getElementById('mo1').value);
+                if (total > 0 && ob >= 0) {
+                    document.getElementById('pom1').value = Math.round((ob / total) * 100);
+                }
+            }
+
+            function calcPct2() {
+                const total = parseFloat(document.getElementById('tm2').value);
+                const ob = parseFloat(document.getElementById('mo2').value);
+                if (total > 0 && ob >= 0) {
+                    document.getElementById('pom2').value = Math.round((ob / total) * 100);
+                }
+            }
+
+            function handleFormSubmit(event) {
+                event.preventDefault();
+                
+                const appData = {
+                    f_name: document.getElementById('ufname').value,
+                    f_occ: document.getElementById('ufocc').value,
+                    f_phn: document.getElementById('ufphn').value,
+                    m_name: document.getElementById('umname').value,
+                    m_occ: document.getElementById('umocc').value,
+                    m_phn: document.getElementById('umphn').value,
+                    s_iop: document.getElementById('inc').value,
+                    s_sex: document.getElementById('gen').value,
+                    s_natn: document.getElementById('natn').value,
+                    s_relg: document.getElementById('relg').value,
+                    s_catg: document.getElementById('cat').value,
+                    s_ruc: document.getElementById('rur').value,
+                    s_phn1: document.getElementById('uphn1').value,
+                    s_cadr: document.getElementById('cadr').value,
+                    s_cst: document.getElementById('cast').value,
+                    s_cpin: document.getElementById('capin').value,
+
+                    s_mainsxam: document.getElementById('oaco').value,
+                    s_mainsrank: document.getElementById('oarank').value,
+                    s_mainsroll: document.getElementById('oaroll').value,
+                    s_mainsbrnch: document.getElementById('oabrn').value,
+                    s_branch: document.getElementById('brnc').value,
+                    s_college: document.getElementById('col').value,
+                    s_center: document.getElementById('cen').value,
+                    s_crtype: document.getElementById('crsty').value,
+
+                    s_tenbrd: document.getElementById('nob1').value,
+                    s_tenyop: document.getElementById('yop1').value,
+                    s_tentotmark: document.getElementById('tm1').value,
+                    s_tenmarkob: document.getElementById('mo1').value,
+                    s_tendiv: document.getElementById('divs1').value,
+                    s_tenprcmark: document.getElementById('pom1').value,
+
+                    s_twlbrd: document.getElementById('nob2').value,
+                    s_twlyop: document.getElementById('yop2').value,
+                    s_twltotmark: document.getElementById('tm2').value,
+                    s_twlmarkob: document.getElementById('mo2').value,
+                    s_twldiv: document.getElementById('divs2').value,
+                    s_twlprcmark: document.getElementById('pom2').value,
+
+                    s_pcm: document.getElementById('pcm').value,
+                    s_moi: document.getElementById('moi').value,
+                    s_pay: document.getElementById('pay').value
+                };
+
+                saveApplication(currentUser.s_id, appData);
+                window.location.href = 'documents.html';
+            }
+        </script>
+    </body>
+</html>
